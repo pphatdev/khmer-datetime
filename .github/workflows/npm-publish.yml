@@ -48,4 +48,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to JSR
-        run: npx jsr publish
+        run: npx jsr publish --provenance
