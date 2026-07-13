@@ -1,8 +1,9 @@
 name: Publish to NPM
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*' # Trigger when you push a tag like v0.1.0
 
 jobs:
   publish:
@@ -27,6 +28,6 @@ jobs:
         run: npm run test
 
       - name: Publish to NPM
-        run: npm publish
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
