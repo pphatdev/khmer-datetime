@@ -2,7 +2,9 @@
 
 A robust, lightweight utility to format dates and times into localized strings using native JavaScript APIs. It supports custom date/time patterns, localized digits (e.g., Khmer numerals), and time-of-day phrases.
 
-[![npm version](https://img.shields.io/npm/v/format-datetime.svg)](https://www.npmjs.com/package/format-datetime)
+[![NPM Version](https://img.shields.io/npm/v/@pphatdev/format-datetime.svg)](https://www.npmjs.com/package/@pphatdev/format-datetime)
+[![JSR Version](https://jsr.io/badges/@pphatdev/format-datetime)](https://jsr.io/@pphatdev/format-datetime)
+[![Build and Test](https://github.com/pphatdev/format-datetime/actions/workflows/ci.yml/badge.svg)](https://github.com/pphatdev/format-datetime/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
@@ -11,15 +13,15 @@ A robust, lightweight utility to format dates and times into localized strings u
 - 🌍 **Localization (i18n)**: Fully supports BCP 47 locale tags (e.g., `en-US`, `km-KH`, `fr-FR`).
 - 🇰🇭 **Khmer Support**: Built-in support for Khmer (`km-KH`) localized digits (e.g., `២០២៦`) and time-of-day phrases (e.g., `ព្រឹក`, `រសៀល`).
 - ⚡ **Zero Dependencies**: Pure native JavaScript (`Intl.DateTimeFormat`, `Date`).
-- 📦 **Multi-Runtime**: Works flawlessly in **Node.js** (CommonJS & ESM), **Bun**, **Deno** (via JSR), and the **Browser**.
+- 📦 **Multi-Runtime**: Works flawlessly in **Node.js**, **Bun**, **Deno** (via JSR), **Cloudflare Workers** (Edge), and the **Browser**.
 
 ## Installation
 
-### Node.js / Bun
+### Node.js / Bun / Cloudflare Workers
 ```bash
-npm install format-datetime
+npm install @pphatdev/format-datetime
 # or
-bun add format-datetime
+bun add @pphatdev/format-datetime
 ```
 
 ### Deno (JSR)
@@ -30,7 +32,7 @@ deno add @pphatdev/format-datetime
 ### Browser (CDN)
 You can include it directly in your HTML using UNPKG:
 ```html
-<script src="https://unpkg.com/format-datetime"></script>
+<script src="https://unpkg.com/@pphatdev/format-datetime"></script>
 <script>
   const dt = new FormatDateTime(new Date(), "DDDD, MMMM d, YYYY", "km-KH");
   console.log(dt.formatDate()); 
@@ -42,7 +44,7 @@ You can include it directly in your HTML using UNPKG:
 ### Basic Example
 
 ```typescript
-import FormatDateTime from 'format-datetime';
+import FormatDateTime from '@pphatdev/format-datetime';
 
 // 1. Initialize with Date, format string, and locale
 const dt = new FormatDateTime(new Date(), "DDDD, MMMM d, YYYY, hh:mm:ss A", "km-KH");
