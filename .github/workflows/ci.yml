@@ -61,7 +61,7 @@ jobs:
         with:
           deno-version: v1.x
       - name: Install dependencies
-        run: deno install
+        run: npm ci
       - name: Run Build
         run: deno task build
       - name: Run Tests
