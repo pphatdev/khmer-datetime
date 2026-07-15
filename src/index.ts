@@ -22,10 +22,10 @@
  * 
  * @author PPhat <hi@pphat.top>
  * @repository https://github.com/pphatdev/format-datetime
- * @website https://pphat.top
+ * @website https://pphat.me
  * @copyright 2026 (c)
  * @license MIT
- * @version 1.0.0
+ * @version 0.1.9
  */
 export class FormatDateTime {
     
