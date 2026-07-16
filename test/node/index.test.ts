@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { FormatDateTime } from '../../src/index.ts';
+import { KhmerDate } from '../../src/lunar/index.ts';
 import process from 'node:process';
 
 describe('FormatDateTime', () => {
@@ -48,13 +49,34 @@ describe('FormatDateTime', () => {
         expect(dt.date).toBeInstanceOf(Date);
         // The date should be created very recently
         const diff = Date.now() - dt.date.getTime();
-        expect(diff).toBeLessThan(5000); 
+        expect(diff).toBeLessThan(5000);
     });
 
     it('should implicitly format via toString()', () => {
         const date = new Date(2026, 0, 1); // Jan 1, 2026
         const dt = new FormatDateTime(date, 'YYYY');
         expect(String(dt)).toBe('2026');
+    });
+
+    it('should format lunar date correctly via FormatDateTime tokens', () => {
+        const date = new Date(2026, 6, 13); // July 13, 2026
+        const dt = new FormatDateTime(date, 'YYYY-MM-dd (BBBB) lM ld lN lA lE');
+        expect(dt.formatDate()).toBe('2026-07-13 (2570) បឋមាសាឍ 13 រោច មមី អដ្ឋស័ក');
+    });
+
+    it('should format lunar date correctly via KhmerDate presets', () => {
+        const date = new Date(2026, 6, 13); // July 13, 2026
+        const kd = new KhmerDate(date);
+        
+        expect(kd.toLunarDate('full')).toBe('ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០');
+        expect(kd.toLunarDate('short')).toBe('១៣រោច ខែបឋមាសាឍ');
+        expect(kd.toLunarDate('medium')).toBe('១៣រោច ខែបឋមាសាឍ ព.ស. ២៥៧០');
+    });
+
+    it('should format custom lunar date correctly via KhmerDate', () => {
+        const date = new Date(2026, 6, 13); // July 13, 2026
+        const kd = new KhmerDate(date);
+        expect(kd.toLunarDate('lW ldd lN lM')).toBe('ចន្ទ ១៣ រោច បឋមាសាឍ');
     });
 
     it('should be running in Node runtime', () => {
