@@ -354,7 +354,7 @@ export default function Home() {
                                             mode="single"
                                             selected={customDate}
                                             onSelect={setCustomDate}
-                                            initialFocus
+                                            autoFocus
                                             className="rounded-xl pointer-events-auto p-0"
                                         />
                                         <Button
