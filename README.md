@@ -165,4 +165,4 @@ Formats the standard solar date in Khmer language.
 
 ## License
 
-[MIT](LICENSE) © PPhat <hi@pphat.top>
+[MIT](LICENSE) © PPhat <hi@pphat.me>

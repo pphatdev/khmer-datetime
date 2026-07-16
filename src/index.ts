@@ -20,7 +20,7 @@
  * HH/H      : Hour (0-23)        hh/h     : Hour (1-12)         A/a/aA   : AM/PM (Localized)
  * mm/m      : Minute (0-59)      ss/s     : Second (0-59)       Z/ZZ/z   : Timezone offsets
  * 
- * @author PPhat <hi@pphat.top>
+ * @author PPhat <hi@pphat.me>
  * @repository https://github.com/pphatdev/format-datetime
  * @website https://pphat.me
  * @copyright 2026 (c)
