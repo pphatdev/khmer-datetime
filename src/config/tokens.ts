@@ -105,14 +105,16 @@ export function generateTokens(date: Date, format: string, locale: string): Reco
 
     let lunarTokens: Record<string, string> = {};
     if (/(BBBB|JJJJ|lA|lE|lM|ldd|ld|lN|ln|lW|lw)/.test(format)) {
-        const lunarDate = KhmerDate.findLunarDate(date);
+        // Normalize date to UTC 12:00:00 to prevent timezone drift during calculations
+        const localUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0));
+        
+        const lunarDate = KhmerDate.findLunarDate(localUTC);
         const moonDay = Calculator.getKhmerLunarDay(lunarDate.day);
-        const beYear = Calculator.getBEYear(date);
-        const animalYear = Calculator.getAnimalYear(date);
-        const eraYears = Calculator.getJolakSakarajYear(date) % 10;
+        const beYear = Calculator.getBEYear(localUTC);
+        const animalYear = Calculator.getAnimalYear(localUTC);
+        const eraYears = Calculator.getJolakSakarajYear(localUTC) % 10;
         const lunarMonths = Object.keys(Constants.LUNAR_MONTHS);
         const khmerDays = ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
-        const dayOfWeek = date.getDay();
 
         lunarTokens = {
             "BBBB": formatNum(beYear, 4),
@@ -124,8 +126,8 @@ export function generateTokens(date: Date, format: string, locale: string): Reco
             "ld": formatNum(moonDay.count),
             "lN": moonDay.moonStatus === 0 ? 'កើត' : 'រោច',
             "ln": moonDay.moonStatus === 0 ? 'ក' : 'រ',
-            "lW": khmerDays[dayOfWeek],
-            "lw": khmerDays[dayOfWeek].substring(0, 1),
+            "lW": khmerDays[localUTC.getUTCDay()],
+            "lw": khmerDays[localUTC.getUTCDay()].substring(0, 1),
         };
     }
 

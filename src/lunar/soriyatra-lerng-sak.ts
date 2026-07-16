@@ -44,7 +44,7 @@ export class SoriyatraLerngSak {
         }
 
         // Calculate time of New Year
-        const timeOfNewYear = this.calculateNewYearTime(newYearsDaySotins);
+        const timeOfNewYear = this.calculateNewYearTime(info.kromathopol);
 
         return {
             harkun: info.harkun,
@@ -118,9 +118,13 @@ export class SoriyatraLerngSak {
         return { angsar, avaman };
     }
 
-    protected static calculateNewYearTime(newYearsDaySotins: any[]): Record<string, number> {
-        const hour = 6 + (newYearsDaySotins[0].avaman % 24);
-        const minute = (newYearsDaySotins[0].avaman % 60);
+    protected static calculateNewYearTime(kromathopol: number): Record<string, number> {
+        // In the traditional system, a day has 800 kromathopol. 
+        // 1 kromathopol = (24 * 60) / 800 = 1.8 minutes.
+        // The fractional part of the year that has elapsed since midnight is (800 - kromathopol).
+        const elapsedMinutes = (800 - kromathopol) * 1.8;
+        const hour = Math.floor(elapsedMinutes / 60);
+        const minute = Math.floor(elapsedMinutes % 60);
 
         return { hour, minute };
     }

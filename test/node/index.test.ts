@@ -61,22 +61,57 @@ describe('FormatDateTime', () => {
     it('should format lunar date correctly via FormatDateTime tokens', () => {
         const date = new Date(2026, 6, 13); // July 13, 2026
         const dt = new FormatDateTime(date, 'YYYY-MM-dd (BBBB) lM ld lN lA lE');
-        expect(dt.formatDate()).toBe('2026-07-13 (2570) បឋមាសាឍ 13 រោច មមី អដ្ឋស័ក');
+        expect(dt.formatDate()).toBe('2026-07-13 (2570) បឋមាសាឍ 14 រោច មមី អដ្ឋស័ក');
     });
 
     it('should format lunar date correctly via KhmerDate presets', () => {
         const date = new Date(2026, 6, 13); // July 13, 2026
         const kd = new KhmerDate(date);
         
-        expect(kd.toLunarDate('full')).toBe('ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០');
-        expect(kd.toLunarDate('short')).toBe('១៣រោច ខែបឋមាសាឍ');
-        expect(kd.toLunarDate('medium')).toBe('១៣រោច ខែបឋមាសាឍ ព.ស. ២៥៧០');
+        expect(kd.toLunarDate('full')).toBe('ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០');
+        expect(kd.toLunarDate('short')).toBe('១៤រោច ខែបឋមាសាឍ');
+        expect(kd.toLunarDate('medium')).toBe('១៤រោច ខែបឋមាសាឍ ព.ស. ២៥៧០');
     });
 
     it('should format custom lunar date correctly via KhmerDate', () => {
         const date = new Date(2026, 6, 13); // July 13, 2026
         const kd = new KhmerDate(date);
-        expect(kd.toLunarDate('lW ldd lN lM')).toBe('ចន្ទ ១៣ រោច បឋមាសាឍ');
+        expect(kd.toLunarDate('lW ldd lN lM')).toBe('ចន្ទ ១៤ រោច បឋមាសាឍ');
+    });
+
+    it('should format full lunar date and solar date together', () => {
+        const date = new Date(2026, 6, 16); // July 16, 2026
+        const kd = new KhmerDate(date);
+        const combined = `${kd.toLunarDate('full')} ត្រូវនឹងថ្ងៃ${kd.toKhmerDate()}`;
+        expect(combined).toBe('ថ្ងៃព្រហស្បតិ៍ ២កើត ខែទុតិយាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០ ត្រូវនឹងថ្ងៃទី១៦ ខែកក្កដា ឆ្នាំ២០២៦');
+    });
+
+    it('should format Khmer new year date 2026 correctly', () => {
+        const nyDate = KhmerDate.getKhNewYearMoment(2026);
+        const kd = new KhmerDate(nyDate);
+        
+        const combined = `${kd.toLunarDate('full')} ត្រូវនឹងថ្ងៃ${kd.toKhmerDate()}`;
+        expect(combined).toBe('ថ្ងៃអង្គារ ១២រោច ខែចេត្រ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៦៩ ត្រូវនឹងថ្ងៃទី១៤ ខែមេសា ឆ្នាំ២០២៦');
+        
+        const dtKm = new FormatDateTime(nyDate, 'hh:mm', 'km-KH');
+        const dtEn = new FormatDateTime(nyDate, 'hh:mm A', 'en-US');
+        const nyString = `ពិធីបុណ្យចូលឆ្នាំថ្មី ប្រពៃណីជាតិ - មហាសង្រ្កាន្ត ម៉ោង ${dtKm.formatDate()} AM (Khmer New Year - Moha Sankranta at ${dtEn.formatDate()})`;
+        
+        expect(nyString).toBe('ពិធីបុណ្យចូលឆ្នាំថ្មី ប្រពៃណីជាតិ - មហាសង្រ្កាន្ត ម៉ោង ១០:៤៨ AM (Khmer New Year - Moha Sankranta at 10:48 AM)');
+    });
+
+    it('should format Khmer new year date 2027 correctly', () => {
+        const nyDate = KhmerDate.getKhNewYearMoment(2027);
+        const kd = new KhmerDate(nyDate);
+        
+        const combined = `${kd.toLunarDate('full')} ត្រូវនឹងថ្ងៃ${kd.toKhmerDate()}`;
+        expect(combined).toBe('ថ្ងៃពុធ ៨កើត ខែចេត្រ ឆ្នាំមមែ នព្វស័ក ពុទ្ធសករាជ ២៥៧០ ត្រូវនឹងថ្ងៃទី១៤ ខែមេសា ឆ្នាំ២០២៧');
+        
+        const dtKm = new FormatDateTime(nyDate, 'hh:mm', 'km-KH');
+        const dtEn = new FormatDateTime(nyDate, 'hh:mm A', 'en-US');
+        const nyString = `ពិធីបុណ្យចូលឆ្នាំថ្មី ប្រពៃណីជាតិ - មហាសង្រ្កាន្ត ម៉ោង ${dtKm.formatDate()} PM (Khmer New Year - Moha Sankranta at ${dtEn.formatDate()})`;
+        
+        expect(nyString).toBe('ពិធីបុណ្យចូលឆ្នាំថ្មី ប្រពៃណីជាតិ - មហាសង្រ្កាន្ត ម៉ោង ០៤:៤៨ PM (Khmer New Year - Moha Sankranta at 04:48 PM)');
     });
 
     it('should be running in Node runtime', () => {

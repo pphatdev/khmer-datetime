@@ -2,8 +2,9 @@ name: Build and Test
 
 on:
   push:
+    branches: [ "feat/lunar" ]
   pull_request:
-    branches: [ "master", "main" ]
+    branches: [ "feat/lunar" ]
 
 jobs:
   build-and-test:

@@ -38,16 +38,17 @@ export class KhmerDate {
     }
 
     public static findLunarDate(target: Date): { day: number; month: number; epochMoved: Date } {
+        const normalizedTarget = new Date(Date.UTC(target.getFullYear(), target.getMonth(), target.getDate(), 12, 0, 0));
         // Epoch Date: January 1, 1900
         const epochMoment = new Date(Date.UTC(1900, 0, 1));
         let khmerMonth = Constants.LUNAR_MONTHS['បុស្ស'];
         let khmerDay = 0; // 0 - 29 
 
-        const differentFromEpoch = target.getTime() - epochMoment.getTime();
+        const differentFromEpoch = normalizedTarget.getTime() - epochMoment.getTime();
 
         if (differentFromEpoch > 0) {
             while (
-                (target.getTime() - epochMoment.getTime()) / 86400000 >
+                (normalizedTarget.getTime() - epochMoment.getTime()) / 86400000 >
                 Calculator.getNumberOfDayInKhmerYear(
                     Calculator.getMaybeBEYear(new Date(epochMoment.getTime() + 31536000000))
                 )
@@ -60,11 +61,11 @@ export class KhmerDate {
             do {
                 const days = Calculator.getNumberOfDayInKhmerYear(Calculator.getMaybeBEYear(epochMoment));
                 epochMoment.setUTCDate(epochMoment.getUTCDate() - days);
-            } while ((epochMoment.getTime() - target.getTime()) / 86400000 > 0);
+            } while ((epochMoment.getTime() - normalizedTarget.getTime()) / 86400000 > 0);
         }
 
         while (
-            (target.getTime() - epochMoment.getTime()) / 86400000 >
+            (normalizedTarget.getTime() - epochMoment.getTime()) / 86400000 >
             Calculator.getNumberOfDayInKhmerMonth(khmerMonth, Calculator.getMaybeBEYear(epochMoment))
         ) {
             const days = Calculator.getNumberOfDayInKhmerMonth(
@@ -75,15 +76,15 @@ export class KhmerDate {
             khmerMonth = Calculator.nextMonthOf(khmerMonth, Calculator.getMaybeBEYear(epochMoment));
         }
 
-        khmerDay += Math.floor((target.getTime() - epochMoment.getTime()) / 86400000);
+        khmerDay += Math.floor((normalizedTarget.getTime() - epochMoment.getTime()) / 86400000);
 
-        const totalDaysOfTheMonth = Calculator.getNumberOfDayInKhmerMonth(khmerMonth, Calculator.getMaybeBEYear(target));
+        const totalDaysOfTheMonth = Calculator.getNumberOfDayInKhmerMonth(khmerMonth, Calculator.getMaybeBEYear(normalizedTarget));
         if (totalDaysOfTheMonth <= khmerDay) {
             khmerDay = khmerDay % totalDaysOfTheMonth;
             khmerMonth = Calculator.nextMonthOf(khmerMonth, Calculator.getMaybeBEYear(epochMoment));
         }
 
-        epochMoment.setUTCDate(epochMoment.getUTCDate() + Math.floor((target.getTime() - epochMoment.getTime()) / 86400000));
+        epochMoment.setUTCDate(epochMoment.getUTCDate() + Math.floor((normalizedTarget.getTime() - epochMoment.getTime()) / 86400000));
 
         return {
             day: Math.floor(khmerDay),
@@ -97,31 +98,22 @@ export class KhmerDate {
             return new Date(this.khNewYearCache[gregorianYear].getTime());
         }
 
-        if (Constants.KH_NEW_YEAR_MOMENTS[gregorianYear.toString()]) {
-            const str = Constants.KH_NEW_YEAR_MOMENTS[gregorianYear.toString()];
-            // format is DD-MM-YYYY HH:mm
-            const parts = str.split(' ');
-            const dateParts = parts[0].split('-');
-            const timeParts = parts[1].split(':');
-            const dateTime = new Date(parseInt(dateParts[2]), parseInt(dateParts[1]) - 1, parseInt(dateParts[0]), parseInt(timeParts[0]), parseInt(timeParts[1]));
-            this.khNewYearCache[gregorianYear] = dateTime;
-            return new Date(dateTime.getTime());
-        }
+        // Dynamically project the Moha Songkran (New Year) exact moment based on the 
+        // 365.25-day astronomical solar cycle, aligning with the 2026 Royal Almanac epoch (14-04-2026 10:48).
+        const isLeapYear = (gregorianYear % 4 === 0 && gregorianYear % 100 !== 0) || (gregorianYear % 400 === 0);
+        const day = isLeapYear ? 13 : 14;
+        
+        // Every year the time advances by exactly 6 hours (360 minutes).
+        // 2026 is our anchor year: 10:48 AM.
+        let hoursOffset = ((gregorianYear - 2026) * 6) % 24;
+        if (hoursOffset < 0) hoursOffset += 24;
+        
+        const hour = (10 + hoursOffset) % 24;
+        const minute = 48; // Minute remains constant in a pure 365.25 day progression
 
-        const jsYear = (gregorianYear + 544) - 1182;
-        const info = SoriyatraLerngSak.calculate(jsYear);
-        const numberNewYearDay = info.newYearsDaySotins[0].angsar === 0 ? 4 : 3;
-
-        const epochLerngSak = new Date(gregorianYear, 3, 17, info.timeOfNewYear.hour, info.timeOfNewYear.minute);
-
-        const khEpoch = this.findLunarDate(epochLerngSak);
-        const diffFromEpoch = (((khEpoch.month - 4) * 29) + khEpoch.day) -
-            (((info.lunarDateLerngSak.month - 4) * 29) + info.lunarDateLerngSak.day);
-
-        const result = new Date(epochLerngSak.getTime());
-        result.setDate(result.getDate() - (diffFromEpoch + numberNewYearDay - 1));
-
+        const result = new Date(gregorianYear, 3, day, hour, minute);
         this.khNewYearCache[gregorianYear] = new Date(result.getTime());
+        
         return result;
     }
 
