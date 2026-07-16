@@ -12,6 +12,7 @@ A robust, lightweight utility to format dates and times into localized strings u
 - 📅 **Flexible Formatting**: Format dates exactly how you want using familiar tokens (`YYYY`, `MMMM`, `hh`, `A`, etc.).
 - 🌍 **Localization (i18n)**: Fully supports BCP 47 locale tags (e.g., `en-US`, `km-KH`, `fr-FR`).
 - 🇰🇭 **Khmer Support**: Built-in support for Khmer (`km-KH`) localized digits (e.g., `២០២៦`) and time-of-day phrases (e.g., `ព្រឹក`, `រសៀល`).
+- 🌙 **Lunar Calendar**: Full support for Khmer lunar dates, Buddhist era (BE), and animal years.
 - ⚡ **Zero Dependencies**: Pure native JavaScript (`Intl.DateTimeFormat`, `Date`).
 - 📦 **Multi-Runtime**: Works flawlessly in **Node.js**, **Bun**, **Deno** (via JSR), **Cloudflare Workers** (Edge), and the **Browser**.
 
@@ -54,6 +55,26 @@ console.log(dt.formatDate());
 // Output: "ចន្ទ, កក្កដា ១៣, ២០២៦, ០១:៣០:៤៥ រសៀល"
 ```
 
+### Khmer Lunar Date Example
+
+```typescript
+import { KhmerDate } from '@pphatdev/format-datetime';
+
+const date = new Date(2026, 6, 13); // July 13, 2026
+const kd = new KhmerDate(date);
+
+// Built-in presets
+console.log(kd.toLunarDate('full')); 
+// Output: "ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
+
+console.log(kd.toLunarDate('short')); 
+// Output: "១៣រោច ខែបឋមាសាឍ"
+
+// Custom Format Tokens
+console.log(kd.toLunarDate('lW ldd lN lM')); 
+// Output: "ចន្ទ ១៣ រោច បឋមាសាឍ"
+```
+
 ### Available Tokens
 
 | Token | Description | Example (en-US) | Example (km-KH) |
@@ -81,6 +102,22 @@ console.log(dt.formatDate());
 | `ZZ` | ISO 8601 offset (w/ sec) | `+07:00:00` | `+07:00:00` |
 | `Z` | ISO 8601 offset | `+07:00` | `+07:00` |
 
+### Lunar Date Tokens (Khmer)
+
+| Token | Description | Example |
+| --- | --- | --- |
+| `BBBB` | Buddhist Era Year | `២៥៧០` |
+| `JJJJ` | Jolak Sakaraj Year | `១៣៨៨` |
+| `lA` | Animal Year | `មមី` |
+| `lE` | Era Year / Sak | `អដ្ឋស័ក` |
+| `lM` | Lunar Month | `បឋមាសាឍ` |
+| `ldd` | Lunar Day count (2 digits) | `១៣` |
+| `ld` | Lunar Day count | `១៣` |
+| `lN` | Moon Status | `រោច` / `កើត` |
+| `ln` | Moon Status (Short) | `រ` / `ក` |
+| `lW` | Day of Week (Khmer) | `ចន្ទ` |
+| `lw` | Day of Week (Short) | `ច` |
+
 ## API Reference
 
 ### `new FormatDateTime(date?, format?, locale?)`
@@ -91,6 +128,13 @@ console.log(dt.formatDate());
 
 ### `dt.formatDate(): string`
 Processes the date and applies the formatting pattern with localized strings.
+
+### `new KhmerDate(date)`
+
+- **`date`** _(Date)_: The date to convert into a Khmer Lunar Date.
+
+### `kd.toLunarDate(format?)`
+- **`format`** _(string)_: The format string containing lunar tokens, or a preset (`"full"`, `"medium"`, `"short"`). Defaults to `"full"`.
 
 ## License
 

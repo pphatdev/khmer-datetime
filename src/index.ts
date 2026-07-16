@@ -25,7 +25,7 @@
  * @website https://pphat.me
  * @copyright 2026 (c)
  * @license MIT
- * @version 0.1.9
+ * @version 0.2.0
  */
 import { PATTERNS, generateTokens } from './config/tokens.ts';
 import { KhmerDate } from './lunar/khmer-date.ts';
@@ -108,14 +108,10 @@ export class FormatDateTime {
     }
 }
 
+export { KhmerDate };
 export default FormatDateTime;
 
 // Support global scope for browser environments (e.g. via CDN script tags)
 if (typeof globalThis !== "undefined") {
     (globalThis as typeof globalThis & { FormatDateTime?: typeof FormatDateTime }).FormatDateTime = FormatDateTime;
 }
-
-
-// Example:
-// const formatDate = new FormatDateTime(new Date(), "DDDD, MMMM d, YYYY, hh:mm:ss A", "KM-kh");
-// console.log(formatDate.formatDate());
