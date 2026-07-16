@@ -1,6 +1,6 @@
 {
   "name": "@pphatdev/format-datetime",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A robust utility to format dates and times into localized strings",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -40,6 +40,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "homepage": "https://format-datetime.pphat.me",
   "bugs": {
     "url": "https://github.com/pphatdev/format-datetime/issues"
   },

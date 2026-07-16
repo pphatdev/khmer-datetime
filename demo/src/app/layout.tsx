@@ -16,8 +16,48 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-    title: "FormatDateTime Demo",
-    description: "A beautiful interactive demo for @pphatdev/format-datetime",
+    title: {
+        default: "KH DateTime Formatter | Modern Localization Utility",
+        template: "%s | KH DateTime",
+    },
+    description: "A robust, lightweight TypeScript utility to format dates and times into localized strings, with first-class support for Khmer standard and lunar calendars.",
+    keywords: [
+        "khmer date formatter", 
+        "khmer lunar calendar", 
+        "javascript date format", 
+        "typescript date format", 
+        "pphatdev", 
+        "format-datetime", 
+        "cambodia datetime"
+    ],
+    authors: [{ name: "PPhat", url: "https://pphat.me" }],
+    creator: "PPhat",
+    publisher: "PPhat",
+    openGraph: {
+        type: "website",
+        locale: "en_US",
+        url: "https://format-datetime.pphat.me",
+        title: "KH DateTime Formatter | Modern Localization Utility",
+        description: "A robust, lightweight TypeScript utility to format dates and times into localized strings, featuring built-in Khmer Lunar support.",
+        siteName: "KH DateTime Formatter",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "KH DateTime Formatter | Modern Localization Utility",
+        description: "A robust, lightweight TypeScript utility to format dates and times into localized strings, featuring built-in Khmer Lunar support.",
+        creator: "@pphatdev",
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+        },
+    },
 };
 
 export default function RootLayout({
