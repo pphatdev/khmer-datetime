@@ -1,6 +1,5 @@
 import { Constants } from '../config/constants.ts';
 import { Calculator } from './calculator.ts';
-import { SoriyatraLerngSak } from './soriyatra-lerng-sak.ts';
 import { KhmerFormatter } from './khmer-formatter.ts';
 
 /**
@@ -102,18 +101,18 @@ export class KhmerDate {
         // 365.25-day astronomical solar cycle, aligning with the 2026 Royal Almanac epoch (14-04-2026 10:48).
         const isLeapYear = (gregorianYear % 4 === 0 && gregorianYear % 100 !== 0) || (gregorianYear % 400 === 0);
         const day = isLeapYear ? 13 : 14;
-        
+
         // Every year the time advances by exactly 6 hours (360 minutes).
         // 2026 is our anchor year: 10:48 AM.
         let hoursOffset = ((gregorianYear - 2026) * 6) % 24;
         if (hoursOffset < 0) hoursOffset += 24;
-        
+
         const hour = (10 + hoursOffset) % 24;
         const minute = 48; // Minute remains constant in a pure 365.25 day progression
 
         const result = new Date(gregorianYear, 3, day, hour, minute);
         this.khNewYearCache[gregorianYear] = new Date(result.getTime());
-        
+
         return result;
     }
 

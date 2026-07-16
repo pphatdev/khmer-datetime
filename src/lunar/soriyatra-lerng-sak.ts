@@ -1,4 +1,35 @@
-import { Constants } from "../config/constants";
+import { Constants } from "../config/constants.ts";
+
+export interface LunarDateLerngSak {
+    day: number;
+    month: number;
+}
+
+export interface NewYearDaySotin {
+    sotin: number;
+    angsar: number;
+    avaman: number;
+}
+
+export interface NewYearTime {
+    hour: number;
+    minute: number;
+}
+
+export interface SoriyatraLerngSakInfo {
+    harkun: number;
+    kromathopol: number;
+    avaman: number;
+    bodithey: number;
+    has366day: boolean;
+    isAthikameas: boolean;
+    isChantreathimeas: boolean;
+    jesthHas30: boolean;
+    dayLerngSak: number;
+    lunarDateLerngSak: LunarDateLerngSak;
+    newYearsDaySotins: NewYearDaySotin[];
+    timeOfNewYear: NewYearTime;
+}
 
 /**
  * Soriyatra Lerng Sak calculations for Khmer New Year
@@ -8,7 +39,7 @@ export class SoriyatraLerngSak {
     /**
      * Calculate Soriyatra Lerng Sak information for a given Jolak Sakaraj year
      */
-    static calculate(jsYear: number): Record<string, any> {
+    static calculate(jsYear: number): SoriyatraLerngSakInfo {
         const info = this.getInfo(jsYear);
 
         const has366day = this.getHas366day(jsYear);
@@ -118,7 +149,7 @@ export class SoriyatraLerngSak {
         return { angsar, avaman };
     }
 
-    protected static calculateNewYearTime(kromathopol: number): Record<string, number> {
+    protected static calculateNewYearTime(kromathopol: number): NewYearTime {
         // In the traditional system, a day has 800 kromathopol. 
         // 1 kromathopol = (24 * 60) / 800 = 1.8 minutes.
         // The fractional part of the year that has elapsed since midnight is (800 - kromathopol).
