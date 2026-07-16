@@ -129,12 +129,39 @@ console.log(kd.toLunarDate('lW ldd lN lM'));
 ### `dt.formatDate(): string`
 Processes the date and applies the formatting pattern with localized strings.
 
+### `dt.formatLunarDate(format?)`
+Shorthand to format the date using the lunar calendar without explicitly instantiating `KhmerDate`.
+- **`format`** _(string)_: The lunar format pattern or preset (`"full"`, `"medium"`, `"short"`, etc). Defaults to `"full"`.
+
+### `dt.toString()`
+Implicitly calls `dt.formatDate()` when the object is cast to a string.
+
 ### `new KhmerDate(date)`
 
 - **`date`** _(Date)_: The date to convert into a Khmer Lunar Date.
 
 ### `kd.toLunarDate(format?)`
 - **`format`** _(string)_: The format string containing lunar tokens, or a preset (`"full"`, `"medium"`, `"short"`). Defaults to `"full"`.
+
+### `kd.khDay(): number`
+Returns the lunar day number.
+
+### `kd.khMonth(): number`
+Returns the lunar month index.
+
+### `kd.khYear(): number`
+Returns the Buddhist Era (BE) year.
+
+### `kd.toKhmerDate(format?)`
+Formats the standard solar date in Khmer language.
+- **`format`** _(string)_: Defaults to `"ទី{day} ខែ{month} ឆ្នាំ{year}"`.
+
+### Static Helpers on `KhmerDate`
+- **`KhmerDate.getKhmerMonthNames()`**: Returns an array of Khmer lunar month names.
+- **`KhmerDate.getAnimalYearNames()`**: Returns an array of animal years (e.g., ជូត, ឆ្លូវ).
+- **`KhmerDate.getEraYearNames()`**: Returns an array of era years (e.g., ឯកស័ក, ទោស័ក).
+- **`KhmerDate.arabicToKhmerNumber(numberString)`**: Converts an Arabic number string to a Khmer number string (e.g. "123" to "១២៣").
+- **`KhmerDate.khmerToArabicNumber(khmerNumberString)`**: Converts a Khmer number string to an Arabic number string.
 
 ## License
 
