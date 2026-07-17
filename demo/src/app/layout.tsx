@@ -75,7 +75,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={cn(poppins.variable, kantumruyPro.variable, "font-sans")} suppressHydrationWarning>
+        <html lang="km" className={cn(poppins.variable, kantumruyPro.variable, "font-sans")} suppressHydrationWarning>
             <body className="min-h-screen flex items-center justify-center relative overflow-x-hidden bg-white dark:bg-black text-neutral-900 dark:text-white transition-colors duration-300">
                 <ThemeProvider
                     attribute="class"
