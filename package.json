@@ -35,14 +35,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pphatdev/format-datetime.git"
+    "url": "git+https://github.com/pphatdev/khmer-datetime.git"
   },
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://format-datetime.pphat.me",
+  "homepage": "https://khmer-datetime.pphat.me",
   "bugs": {
-    "url": "https://github.com/pphatdev/format-datetime/issues"
+    "url": "https://github.com/pphatdev/khmer-datetime/issues"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
