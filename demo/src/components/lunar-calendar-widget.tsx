@@ -135,7 +135,7 @@ export function LunarCalendarWidget() {
                     
                     <div className="flex items-center gap-4">
                         <div className="flex items-center">
-                            <Select value={locale} onValueChange={(v) => startTransition(() => setLocale(v))}>
+                            <Select value={locale} onValueChange={(v) => startTransition(() => setLocale(v || 'km-KH'))}>
                                 <SelectTrigger className="w-[160px] bg-neutral-100/80 dark:bg-white/5 border border-neutral-200/50 dark:border-white/10 text-neutral-900 dark:text-white rounded-xl backdrop-blur-md focus:ring-teal-500 focus:border-teal-500 font-medium">
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-4 h-4 text-neutral-500" />
