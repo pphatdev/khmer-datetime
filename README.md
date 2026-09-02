@@ -163,6 +163,61 @@ Formats the standard solar date in Khmer language.
 - **`KhmerDate.arabicToKhmerNumber(numberString)`**: Converts an Arabic number string to a Khmer number string (e.g. "123" to "១២៣").
 - **`KhmerDate.khmerToArabicNumber(khmerNumberString)`**: Converts a Khmer number string to an Arabic number string.
 
+## Documentation
+
+Long-form docs live under [`docs/`](./docs):
+
+- [Getting Started](./docs/getting-started.md) — installation on each runtime, constructor, framework setup
+- [Token Reference](./docs/tokens.md) — every solar and lunar format token
+- [API Reference](./docs/api-reference.md) — full `FormatDateTime` and `KhmerDate` TypeScript signatures
+- [TypeScript Guide](./docs/typescript.md) — import styles, type patterns, interfaces
+- [Lunar Calendar](./docs/lunar-calendar.md) — Buddhist Era, Jolak Sakaraj, animal/era cycles, moon status
+- [Algorithms](./docs/algorithms.md) — the traditional Soriyatra formulas explained
+- [Architecture](./docs/architecture.md) — how the pieces fit together
+- [Runtimes](./docs/runtimes.md) — Node, Bun, Deno, Cloudflare Workers, browser setup
+- [Examples](./docs/examples.md) — copy-paste recipes
+- [FAQ](./docs/faq.md) — common questions
+
+## AI Agent Guidelines
+
+This project ships with dedicated entry points for AI coding assistants and LLM tools. **If you are an AI agent operating in this repository, read these first.**
+
+### For coding assistants (Claude Code, Cursor, Copilot, etc.)
+
+Start with [`CLAUDE.md`](./CLAUDE.md). It documents:
+
+- Common commands (`npm run build`, `npm run test:node`, `npm run test:deno`, single-test invocations)
+- The **dual-publish model** — npm ships `dist/`; JSR ships raw `src/` to Deno. This constrains what you can change.
+- Architecture invariants you must not break
+
+### For LLM tools that consume `llms.txt`
+
+Load [`llms.txt`](./llms.txt) at the repo root. It follows the [llmstxt.org](https://llmstxt.org) spec and links to every doc, source file, and workflow via `raw.githubusercontent.com` URLs for direct retrieval.
+
+### Load-bearing invariants
+
+When editing this codebase — human or agent — the following patterns are load-bearing and must be preserved:
+
+1. **`.ts` extensions in every intra-repo import**. Deno consumes `src/index.ts` directly from JSR and requires explicit extensions. Removing them breaks Deno users. `tsconfig.json` tolerates them via `allowImportingTsExtensions: true` + `moduleResolution: "bundler"`.
+2. **Longest-token-first regex ordering** in `formatDate()`. The sort `keys.sort((a, b) => b.length - a.length)` prevents `MMMM` from being eaten by `MM`, `hh` by `h`, `ldd` by `ld`. Do not change the comparator.
+3. **No Node built-ins in `src/`**. Code must run on Node ≥ 20, Bun, Deno, Cloudflare Workers, and the browser. Only `Intl.DateTimeFormat`, `Intl.NumberFormat`, and `Date` are available.
+4. **UTC-noon normalization in the lunar solver**. `KhmerDate.findLunarDate()` normalizes to `Date.UTC(y, m, d, 12, 0, 0)` before day-counting. Removing this reintroduces timezone off-by-ones.
+5. **Version bumps must update three files**: `package.json`, `deno.json`, and `jsr.json` together.
+6. **Test both runtimes**. `test/node/` (Vitest) and `test/deno/` (`@std/testing` + `@std/expect`) are intentional near-duplicates. New behavioral tests should live in both.
+7. **`globalThis.FormatDateTime` attachment** at the end of `src/index.ts` is intentional — the IIFE CDN bundle relies on it. Do not remove.
+8. **`defualtPatterns` typo** in `FormatDateTime` is preserved for backwards compatibility. Do not rename.
+9. **Placeholder methods on `KhmerDate`** (`format`, `add`, `subtract`) are intentional stubs kept for upstream PHP API-shape parity. Do not "implement" them without discussion — real date arithmetic should go through the underlying `Date`.
+
+### Scope boundaries
+
+- The **public npm API** is `FormatDateTime` + `KhmerDate` only. `Calculator`, `KhmerFormatter`, `SoriyatraLerngSak`, and `Utils` are reachable from `src/lunar/index.ts` but are **not** re-exported from `src/index.ts`. They are Deno/JSR-only and may change without a semver bump.
+- Do not introduce feature flags, backwards-compatibility shims, or hypothetical-future-use abstractions.
+- Do not add error handling for scenarios that cannot happen — trust internal invariants; validate only at boundaries.
+
+### If in doubt
+
+Ask before making destructive changes (renaming exports, dropping runtimes, removing the global attachment, changing the lunar epoch). The library is stable and consumers pin exact versions — semver breakage is expensive.
+
 ## License
 
 [MIT](LICENSE) © PPhat <hi@pphat.me>
