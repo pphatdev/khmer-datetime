@@ -25,7 +25,7 @@
  * @website https://pphat.me
  * @copyright 2026 (c)
  * @license MIT
- * @version 0.3.7
+ * @version 0.3.8
  */
 import { PATTERNS, generateTokens } from './config/tokens.ts';
 import { KhmerDate } from './lunar/khmer-date.ts';

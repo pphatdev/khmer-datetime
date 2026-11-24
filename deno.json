@@ -1,6 +1,6 @@
 {
   "name": "@pphatdev/format-datetime",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "license": "MIT",
   "exports": "./src/index.ts",
   "lock": false,
@@ -11,6 +11,13 @@
   "test": {
     "include": [
       "test/deno/"
+    ]
+  },
+  "publish": {
+    "include": [
+      "src/**/*.ts",
+      "README.md",
+      "LICENSE"
     ]
   }
 }
