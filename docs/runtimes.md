@@ -69,7 +69,7 @@ Bun's `Intl` implementation is complete — Khmer numbering system, all locales,
 deno add @pphatdev/format-datetime
 ```
 
-This adds `"@pphatdev/format-datetime": "jsr:@pphatdev/format-datetime@^0.3.8"` to your `deno.json` imports.
+This adds `"@pphatdev/format-datetime": "jsr:@pphatdev/format-datetime@^0.3.9"` to your `deno.json` imports.
 
 ### Import
 
@@ -86,7 +86,7 @@ import FormatDateTime from 'jsr:@pphatdev/format-datetime';
 Or pin a specific version:
 
 ```typescript
-import FormatDateTime from 'jsr:@pphatdev/format-datetime@0.3.8';
+import FormatDateTime from 'jsr:@pphatdev/format-datetime@0.3.9';
 ```
 
 ### How Deno consumes this package
@@ -210,7 +210,7 @@ Or ESM:
 Always pin the version in production:
 
 ```html
-<script src="https://unpkg.com/@pphatdev/format-datetime@0.3.8/dist/index.global.js"></script>
+<script src="https://unpkg.com/@pphatdev/format-datetime@0.3.9/dist/index.global.js"></script>
 ```
 
 ## Build Output Reference
