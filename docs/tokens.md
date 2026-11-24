@@ -148,8 +148,8 @@ Both cycles roll over on Khmer New Year.
 
 | Token | Description | Example |
 | --- | --- | --- |
-| `ldd` | Lunar day count (2 digits, 1–15) | `១៣` |
-| `ld` | Lunar day count (1–15) | `១៣` |
+| `ldd` | Lunar day count (2 digits, 1–15) | `១៤` |
+| `ld` | Lunar day count (1–15) | `១៤` |
 | `lN` | Moon status | `រោច` (waning) / `កើត` (waxing) |
 | `ln` | Moon status (single-char) | `រ` / `ក` |
 
@@ -198,14 +198,24 @@ These regex fragments are exposed via `FormatDateTime.patterns` (the `PATTERNS` 
 
 ## Escaping
 
-There is **no escape mechanism**. If you need a literal `Y`, `M`, `D`, `h`, `m`, `s`, `a`, `A`, `Z`, `z`, `B`, `J`, or `l` in the output, either:
+To escape literal text so that characters are not treated as tokens, enclose the literal text in square brackets `[...]`. Characters within brackets are preserved exactly as written and the brackets are stripped:
 
-1. Place it inside content that doesn't match a token pattern (any punctuation or Khmer text acts as a barrier).
-2. Bracket the token with characters that don't complete a token. For example, the format `'Year: YYYY'` works fine because `Y` alone isn't a token pattern — only `YY` and `YYYY` are.
+```typescript
+new FormatDateTime(new Date(2026, 6, 13, 14, 30), '[Time is] HH:mm', 'en-US').formatDate();
+// "Time is 14:30"
 
-In practice this rarely bites. The format `'Time is HH:mm'` works because the `T`, `i`, `m`, `e`, `is` aren't tokens. `'YYYY-MM-dd'` works because `-` isn't consumed. `'ថ្ងៃ DDDD'` works because Khmer text isn't consumed by any `[a-zA-Z]` token.
+new FormatDateTime(new Date(2026, 6, 13), '[Year]: YYYY', 'en-US').formatDate();
+// "Year: 2026"
 
-The main gotcha is the letter `m`: `'HH:mm'` renders correctly, but `'MMs'` would render `s` as seconds. Use a separator: `'MM/s'`.
+new FormatDateTime(new Date(2026, 6, 13, 14, 30), '[Today is] DDDD [at] hh:mm a', 'en-US').formatDate();
+// "Today is Monday at 02:30 pm"
+```
+
+Without brackets, any character matching a token pattern will be substituted:
+- In unescaped `'Time is HH:mm'`, `m` is replaced with minutes and `s` with seconds (`Ti30e i5 14:30`).
+- In unescaped `'Year: YYYY'`, `a` is replaced with AM/PM (`YePMr: 2026` or `Yepmr: 2026`).
+
+Characters that do not match any token — spaces, punctuation, hyphens, and Khmer text — pass through untouched without needing brackets: `'YYYY-MM-dd'`, `'ថ្ងៃ DDDD'`.
 
 ## Examples
 
@@ -258,7 +268,7 @@ new FormatDateTime(new Date(2026, 6, 13), 'YYYY-MM-dd (BBBB) lM ld lN lA lE').fo
 
 // Custom Khmer lunar pattern
 new FormatDateTime(new Date(2026, 6, 13)).formatLunarDate('lW ldd lN lM');
-// "ចន្ទ ១៣ រោច បឋមាសាឍ"
+// "ចន្ទ ១៤ រោច បឋមាសាឍ"
 ```
 
 ### Other locales

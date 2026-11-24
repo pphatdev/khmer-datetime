@@ -168,13 +168,13 @@ import FormatDateTime from '@pphatdev/format-datetime';
 
 const dt = new FormatDateTime(new Date(2026, 6, 13));
 console.log(dt.formatLunarDate('full'));
-// ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០
+// ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០
 
 console.log(dt.formatLunarDate('short'));
-// ១៣រោច ខែបឋមាសាឍ
+// ១៤រោច ខែបឋមាសាឍ
 
 console.log(dt.formatLunarDate('lW ldd lN lM'));
-// ចន្ទ ១៣ រោច បឋមាសាឍ
+// ចន្ទ ១៤ រោច បឋមាសាឍ
 ```
 
 `formatLunarDate()` delegates to `new KhmerDate(this.date).toLunarDate(format)` under the hood. See [Lunar Calendar](./lunar-calendar.md) for the full Khmer calendar API.

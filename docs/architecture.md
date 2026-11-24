@@ -276,7 +276,7 @@ User             FormatDateTime      generateTokens        KhmerDate         Cal
  │                    │                    │                    │                   │
  │                    │ (sort keys longest-first, build regex, replace)             │
  │                    │                    │                    │                   │
- │<──"ចន្ទ ១៣ រោច..."─│                    │                    │                   │
+ │<──"ចន្ទ ១៤ រោច..."─│                    │                    │                   │
 ```
 
 ## Extending the Library

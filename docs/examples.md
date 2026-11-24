@@ -91,23 +91,23 @@ import { KhmerDate } from '@pphatdev/format-datetime';
 const kd = new KhmerDate(new Date(2026, 6, 13));
 
 kd.toLunarDate('full');
-// "ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
+// "ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
 
 kd.toLunarDate('medium');
-// "១៣រោច ខែបឋមាសាឍ ព.ស. ២៥៧០"
+// "១៤រោច ខែបឋមាសាឍ ព.ស. ២៥៧០"
 
 kd.toLunarDate('short');
-// "១៣រោច ខែបឋមាសាឍ"
+// "១៤រោច ខែបឋមាសាឍ"
 ```
 
 ### Custom lunar pattern
 
 ```typescript
 new KhmerDate(new Date(2026, 6, 13)).toLunarDate('lW ldd lN lM');
-// "ចន្ទ ១៣ រោច បឋមាសាឍ"
+// "ចន្ទ ១៤ រោច បឋមាសាឍ"
 
 new KhmerDate(new Date(2026, 6, 13)).toLunarDate('ថ្ងៃlW lddlN ឆ្នាំlA lE ព.ស. BBBB');
-// "ថ្ងៃចន្ទ ១៣រោច ឆ្នាំមមី អដ្ឋស័ក ព.ស. ២៥៧០"
+// "ថ្ងៃចន្ទ ១៤រោច ឆ្នាំមមី អដ្ឋស័ក ព.ស. ២៥៧០"
 ```
 
 ### Mixing solar and lunar tokens in one string
@@ -370,7 +370,7 @@ Usage:
 ```bash
 $ node cli.js 2026-07-13
 Monday, July 13, 2026
-ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០
+ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០
 ទី១៣ ខែកក្កដា ឆ្នាំ២០២៦
 ```
 

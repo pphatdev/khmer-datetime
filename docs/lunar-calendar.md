@@ -217,7 +217,7 @@ Let's trace what happens when you compute the lunar date for `new Date(2026, 6, 
 ```typescript
 const dt = new FormatDateTime(new Date(2026, 6, 13));
 dt.formatLunarDate('full');
-// "ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
+// "ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
 ```
 
 Step-by-step:
@@ -307,7 +307,7 @@ If you need strict UTC-day-boundary semantics for a batch computation, construct
 
 ```typescript
 new KhmerDate().toLunarDate('full');
-// "ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
+// "ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
 ```
 
 ### Check if this year has a leap month

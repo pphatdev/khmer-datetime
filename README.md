@@ -65,14 +65,14 @@ const kd = new KhmerDate(date);
 
 // Built-in presets
 console.log(kd.toLunarDate('full')); 
-// Output: "ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
+// Output: "ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
 
 console.log(kd.toLunarDate('short')); 
-// Output: "១៣រោច ខែបឋមាសាឍ"
+// Output: "១៤រោច ខែបឋមាសាឍ"
 
 // Custom Format Tokens
 console.log(kd.toLunarDate('lW ldd lN lM')); 
-// Output: "ចន្ទ ១៣ រោច បឋមាសាឍ"
+// Output: "ចន្ទ ១៤ រោច បឋមាសាឍ"
 ```
 
 ### Available Tokens
@@ -111,8 +111,8 @@ console.log(kd.toLunarDate('lW ldd lN lM'));
 | `lA` | Animal Year | `មមី` |
 | `lE` | Era Year / Sak | `អដ្ឋស័ក` |
 | `lM` | Lunar Month | `បឋមាសាឍ` |
-| `ldd` | Lunar Day count (2 digits) | `១៣` |
-| `ld` | Lunar Day count | `១៣` |
+| `ldd` | Lunar Day count (2 digits) | `១៤` |
+| `ld` | Lunar Day count | `១៤` |
 | `lN` | Moon Status | `រោច` / `កើត` |
 | `ln` | Moon Status (Short) | `រ` / `ក` |
 | `lW` | Day of Week (Khmer) | `ចន្ទ` |

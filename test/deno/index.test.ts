@@ -13,8 +13,30 @@ describe('FormatDateTime', () => {
 
     it('should correctly format time with AM/PM', () => {
         const date = new Date(2026, 6, 13, 14, 30, 45); // 2:30:45 PM
-        const dt = new FormatDateTime(date, 'hh:mm:ss A', 'en-US');
-        expect(dt.formatDate()).toBe('02:30:45 PM');
+        const dtUpper = new FormatDateTime(date, 'hh:mm:ss A', 'en-US');
+        expect(dtUpper.formatDate()).toBe('02:30:45 PM');
+
+        const dtLower = new FormatDateTime(date, 'hh:mm:ss a', 'en-US');
+        expect(dtLower.formatDate()).toBe('02:30:45 pm');
+
+        const morningDate = new Date(2026, 6, 13, 9, 15, 0); // 9:15:00 AM
+        const dtMorningLower = new FormatDateTime(morningDate, 'hh:mm a', 'en-US');
+        expect(dtMorningLower.formatDate()).toBe('09:15 am');
+
+        const dtMorningUpper = new FormatDateTime(morningDate, 'hh:mm A', 'en-US');
+        expect(dtMorningUpper.formatDate()).toBe('09:15 AM');
+    });
+
+    it('should preserve literal text escaped with square brackets', () => {
+        const date = new Date(2026, 6, 13, 14, 30, 5);
+        const dt1 = new FormatDateTime(date, '[Time is] HH:mm', 'en-US');
+        expect(dt1.formatDate()).toBe('Time is 14:30');
+
+        const dt2 = new FormatDateTime(date, '[Year]: YYYY', 'en-US');
+        expect(dt2.formatDate()).toBe('Year: 2026');
+
+        const dt3 = new FormatDateTime(date, '[Today is] DDDD [at] hh:mm a', 'en-US');
+        expect(dt3.formatDate()).toBe('Today is Monday at 02:30 pm');
     });
 
     it('should correctly format Khmer (km-KH) numeric tokens', () => {
@@ -65,6 +87,12 @@ describe('FormatDateTime', () => {
     });
 
     it('should format lunar date correctly via KhmerDate presets', () => {
+        const date20260713 = new Date(2026, 6, 13); // July 13, 2026
+        const kd13 = new KhmerDate(date20260713);
+        expect(kd13.toLunarDate('full')).toBe('ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០');
+        expect(kd13.toLunarDate('short')).toBe('១៤រោច ខែបឋមាសាឍ');
+        expect(kd13.toLunarDate('medium')).toBe('១៤រោច ខែបឋមាសាឍ ព.ស. ២៥៧០');
+
         const date = new Date(2026, 6, 16); // July 16, 2026
         const kd = new KhmerDate(date);
 

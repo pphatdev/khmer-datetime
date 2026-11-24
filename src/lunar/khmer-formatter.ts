@@ -109,8 +109,12 @@ export class KhmerFormatter {
     private parseCustomFormat(format: string, _day: number, _month: number, dateTime: Date, _dayOfWeek: number): string {
         const tokens = generateTokens(dateTime, format, 'km-KH');
 
-        const regex = new RegExp(Object.keys(tokens).sort((a, b) => b.length - a.length).join("|"), "g");
-        return format.replace(regex, match => tokens[match]);
+        const keys = Object.keys(tokens).sort((a, b) => b.length - a.length);
+        const regex = new RegExp(`\\[([^\\]]*)\\]|(${keys.join("|")})`, "g");
+        return format.replace(regex, (match, escaped) => {
+            if (escaped !== undefined) return escaped;
+            return tokens[match];
+        });
     }
 
     private getFullLunarFormat(day: number, month: number, dateTime: Date, dayOfWeek: number): string {
