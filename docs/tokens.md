@@ -35,7 +35,7 @@ For Khmer, `MMMM` and `MMM` return the same string — there is no distinct shor
 | Token | Description | `en-US` | `km-KH` |
 | --- | --- | --- | --- |
 | `DDDD` | Full weekday name | `Monday` | `ចន្ទ` |
-| `DDD` | Short weekday name | `Mon` | `ចន្ទ` |
+| `DDD` | Short weekday name | `Mon` | `ច` |
 | `DD` | 2-char weekday | `Mo` | `ច` |
 | `D` | 1-char weekday | `M` | `ច` |
 
