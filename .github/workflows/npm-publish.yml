@@ -51,8 +51,8 @@ jobs:
       - name: Publish to NPM
         if: steps.check.outputs.exists == 'false'
         run: npm publish --provenance --access public
-        # env:
-        #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Setup Node for GitHub Packages
         if: steps.check.outputs.exists == 'false'
@@ -64,5 +64,5 @@ jobs:
       - name: Publish to GitHub Packages
         if: steps.check.outputs.exists == 'false'
         run: npm publish
-        # env:
-        #   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
