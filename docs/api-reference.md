@@ -112,16 +112,16 @@ Returns `"Invalid Date"` if the underlying `Date` is invalid.
 
 ```typescript
 new FormatDateTime(new Date(2026, 6, 13)).formatLunarDate('full');
-// "ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
+// "ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
 
 new FormatDateTime(new Date(2026, 6, 13)).formatLunarDate('short');
-// "១៣រោច ខែបឋមាសាឍ"
+// "១៤រោច ខែបឋមាសាឍ"
 
 new FormatDateTime(new Date(2026, 6, 13)).formatLunarDate('medium');
-// "១៣រោច ខែបឋមាសាឍ ព.ស. ២៥៧០"
+// "១៤រោច ខែបឋមាសាឍ ព.ស. ២៥៧០"
 
 new FormatDateTime(new Date(2026, 6, 13)).formatLunarDate('lW ldd lN lM');
-// "ចន្ទ ១៣ រោច បឋមាសាឍ"
+// "ចន្ទ ១៤ រោច បឋមាសាឍ"
 ```
 
 ### `toString(): string`
@@ -267,10 +267,10 @@ Formats the date using the Khmer lunar calendar. `format` may be:
 
 | Value | Output |
 | --- | --- |
-| `null` (default) or `'full'` | `"ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"` |
-| `'medium'` | `"១៣រោច ខែបឋមាសាឍ ព.ស. ២៥៧០"` |
-| `'short'` | `"១៣រោច ខែបឋមាសាឍ"` |
-| Custom token string | `'lW ldd lN lM'` → `"ចន្ទ ១៣ រោច បឋមាសាឍ"` |
+| `null` (default) or `'full'` | `"ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"` |
+| `'medium'` | `"១៤រោច ខែបឋមាសាឍ ព.ស. ២៥៧០"` |
+| `'short'` | `"១៤រោច ខែបឋមាសាឍ"` |
+| Custom token string | `'lW ldd lN lM'` → `"ចន្ទ ១៤ រោច បឋមាសាឍ"` |
 
 Custom patterns run through the same token pipeline as `FormatDateTime.formatDate()`, with `km-KH` forced as the locale.
 
@@ -331,7 +331,7 @@ Alias for `toLunarDate()` with the default `'full'` preset.
 
 ```typescript
 `${new KhmerDate(new Date(2026, 6, 13))}`
-// "ថ្ងៃចន្ទ ១៣រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
+// "ថ្ងៃចន្ទ ១៤រោច ខែបឋមាសាឍ ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ ២៥៧០"
 ```
 
 ### Static: `KhmerDate.findLunarDate(target: Date)`

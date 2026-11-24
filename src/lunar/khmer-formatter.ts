@@ -108,9 +108,19 @@ export class KhmerFormatter {
 
     private parseCustomFormat(format: string, _day: number, _month: number, dateTime: Date, _dayOfWeek: number): string {
         const tokens = generateTokens(dateTime, format, 'km-KH');
+        const lunarTokenKeys = ["BBBB", "JJJJ", "ldd", "ld", "lA", "lE", "lM", "lN", "ln", "lW", "lw"];
 
-        const regex = new RegExp(Object.keys(tokens).sort((a, b) => b.length - a.length).join("|"), "g");
-        return format.replace(regex, match => tokens[match]);
+        // Only replace lunar tokens in lunar formatter, preventing collision with arbitrary text (e.g. "Time:")
+        const keys = lunarTokenKeys.filter(k => k in tokens).sort((a, b) => b.length - a.length);
+        if (keys.length === 0) {
+            return format.replace(/\[([^\]]*)\]/g, '$1');
+        }
+
+        const regex = new RegExp(`\\[([^\\]]*)\\]|(${keys.join("|")})`, "g");
+        return format.replace(regex, (match, escaped) => {
+            if (escaped !== undefined) return escaped;
+            return tokens[match];
+        });
     }
 
     private getFullLunarFormat(day: number, month: number, dateTime: Date, dayOfWeek: number): string {

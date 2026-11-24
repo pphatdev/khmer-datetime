@@ -25,7 +25,7 @@
  * @website https://pphat.me
  * @copyright 2026 (c)
  * @license MIT
- * @version 0.2.0
+ * @version 0.3.7
  */
 import { PATTERNS, generateTokens } from './config/tokens.ts';
 import { KhmerDate } from './lunar/khmer-date.ts';
@@ -83,8 +83,11 @@ export class FormatDateTime {
 
         // Match tokens from longest to shortest to prevent partial matches
         const keys = Object.keys(tokens).sort((a, b) => b.length - a.length);
-        const regex = new RegExp(keys.join("|"), "g");
-        return this.format.replace(regex, match => tokens[match]);
+        const regex = new RegExp(`\\[([^\\]]*)\\]|(${keys.join("|")})`, "g");
+        return this.format.replace(regex, (match, escaped) => {
+            if (escaped !== undefined) return escaped;
+            return tokens[match];
+        });
     }
 
     /**

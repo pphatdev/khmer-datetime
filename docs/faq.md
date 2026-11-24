@@ -126,9 +126,9 @@ import { KhmerDate } from '@pphatdev/format-datetime';
 // (Calculator is not exported from npm — this is a Deno-only import)
 
 const kd = new KhmerDate(new Date(2026, 6, 13));
-const internalDay = kd.khDay();     // e.g. 13
+const internalDay = kd.khDay();     // e.g. 28
 // Display equivalent: `${(internalDay % 15) + 1}${internalDay > 14 ? 'រោច' : 'កើត'}`
-// → "14កើត"
+// → "14រោច"
 ```
 
 Or just use `toLunarDate('short')` which does this for you.
@@ -159,9 +159,14 @@ Khmer script has no case. Both AM/PM tokens produce the same phrase (e.g. `រ�
 
 ### Can I escape token characters to output them literally?
 
-No formal escape mechanism. Because tokens require specific character sequences (`YYYY`, `MMMM`, etc.), you can usually just insert punctuation between token-like letters and other letters. For example, `'Year: YYYY'` works fine because `Y` alone isn't a token pattern.
+Yes. Wrap literal characters or words in square brackets `[...]`:
 
-Trouble spots: the letter `m` (`'YYYYmm'` would render `mm` as minutes — use a separator: `'YYYY-mm'`).
+```typescript
+new FormatDateTime(date, '[Time is] HH:mm', 'en-US').formatDate(); // "Time is 14:30"
+new FormatDateTime(date, '[Year]: YYYY', 'en-US').formatDate();    // "Year: 2026"
+```
+
+Without brackets, any character matching a token (such as `m` for minutes, `s` for seconds, or `a` for am/pm) will be replaced.
 
 ### What's the difference between `Z` and `z`?
 

@@ -28,7 +28,7 @@ export class Constants {
     static readonly WEEKDAYS = ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
 
     /** Array of the short versions of the 7 days of the week in Khmer */
-    static readonly WEEKDAYS_SHORT = ['អា', 'ច', 'អ', 'ព', 'ព្រ', 'សុ', 'ស'];
+    static readonly WEEKDAYS_SHORT = ['អា', 'ចន', 'អ', 'ព', 'ព្រ', 'សុ', 'ស'];
 
     /** Array of the 12 solar months in Khmer */
     static readonly MONTHS = ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'];

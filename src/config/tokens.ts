@@ -124,12 +124,13 @@ export function generateTokens(date: Date, format: string, locale: string): Reco
             .formatToParts(date);
         const dayPeriodMatch = parts.find(part => part.type === 'dayPeriod');
 
-        localAmPm = dayPeriodMatch ? dayPeriodMatch.value : ampm;
+        localAmPm = dayPeriodMatch ? dayPeriodMatch.value.toLowerCase() : ampm;
         localAmPmUpper = dayPeriodMatch ? dayPeriodMatch.value.toUpperCase() : AMPM;
     }
 
     let lunarTokens: Record<string, string> = {};
-    if (/(BBBB|JJJJ|lA|lE|lM|ldd|ld|lN|ln|lW|lw)/.test(format)) {
+    const unescapedFormat = format.replace(/\[[^\]]*\]/g, '');
+    if (/(BBBB|JJJJ|lA|lE|lM|ldd|ld|lN|ln|lW|lw)/.test(unescapedFormat)) {
         // Normalize date to UTC 12:00:00 to prevent timezone drift during calculations
         const localUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0));
         
