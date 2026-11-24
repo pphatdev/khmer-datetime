@@ -112,8 +112,8 @@ describe('FormatDateTime', () => {
         expect(new FormatDateTime(monday, 'D', 'en-US').formatDate()).toBe('M');
 
         expect(new FormatDateTime(monday, 'DDDD', 'km-KH').formatDate()).toBe('ចន្ទ');
-        expect(new FormatDateTime(monday, 'DDD', 'km-KH').formatDate()).toBe('ច');
-        expect(new FormatDateTime(monday, 'DD', 'km-KH').formatDate()).toBe('ច');
+        expect(new FormatDateTime(monday, 'DDD', 'km-KH').formatDate()).toBe('ចន');
+        expect(new FormatDateTime(monday, 'DD', 'km-KH').formatDate()).toBe('ចន');
         expect(new FormatDateTime(monday, 'D', 'km-KH').formatDate()).toBe('ច');
     });
 
