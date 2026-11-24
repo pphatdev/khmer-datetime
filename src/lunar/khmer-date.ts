@@ -7,7 +7,9 @@ import { KhmerFormatter } from './khmer-formatter.ts';
  * Ported from PPhatDev/LunarDate
  */
 export class KhmerDate {
+    /** The Gregorian date this instance represents. */
     protected dateTime: Date;
+    /** Cache of computed Khmer New Year dates, keyed by Gregorian year. */
     protected static khNewYearCache: Record<number, Date> = {};
 
     /**
@@ -50,6 +52,14 @@ export class KhmerDate {
         return new Date(this.dateTime.getTime());
     }
 
+    /**
+     * Finds the Khmer lunar day and month for a Gregorian date, counting
+     * forward from the epoch of 1 January 1900.
+     *
+     * @param target The Gregorian date to convert.
+     * @returns The lunar day index (0-29), the lunar month index, and the
+     * epoch date after moving it to `target`.
+     */
     public static findLunarDate(target: Date): { day: number; month: number; epochMoved: Date } {
         const normalizedTarget = new Date(Date.UTC(target.getFullYear(), target.getMonth(), target.getDate(), 12, 0, 0));
         // Epoch Date: January 1, 1900
@@ -199,30 +209,67 @@ export class KhmerDate {
         return result;
     }
 
+    /**
+     * Returns the date as an ISO 8601 string.
+     *
+     * The `_format` argument is currently ignored. Use
+     * {@linkcode KhmerDate.prototype.toLunarDate} for lunar formatting.
+     *
+     * @param _format Reserved for future use.
+     * @returns The date as an ISO 8601 string.
+     */
     public format(_format: string): string {
         // Needs a JS implementation of formatting date if needed, but we keep the method for signature
         // Using `FormatDateTime` could work, but for now we just return ISO string or basic format
         return this.dateTime.toISOString(); // simplified
     }
 
+    /**
+     * Returns the Unix timestamp of the date, in seconds.
+     *
+     * @returns Seconds since 1 January 1970 UTC.
+     */
     public getTimestamp(): number {
         return Math.floor(this.dateTime.getTime() / 1000);
     }
 
+    /**
+     * Not implemented yet: returns this instance unchanged.
+     *
+     * @param _interval Reserved for future use.
+     * @returns This instance.
+     */
     public add(_interval: string): this {
         // Simplified, normally use a library or regex to parse interval
         return this;
     }
 
+    /**
+     * Not implemented yet: returns this instance unchanged.
+     *
+     * @param _interval Reserved for future use.
+     * @returns This instance.
+     */
     public subtract(_interval: string): this {
         // Simplified
         return this;
     }
 
+    /**
+     * Creates a new KhmerDate with the same date.
+     *
+     * @returns A copy of this instance.
+     */
     public copy(): KhmerDate {
         return new KhmerDate(this.dateTime);
     }
 
+    /**
+     * Returns the full Khmer lunar date, as from
+     * {@linkcode KhmerDate.prototype.toLunarDate}.
+     *
+     * @returns The formatted lunar date.
+     */
     public toString(): string {
         return this.toLunarDate();
     }

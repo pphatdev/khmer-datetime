@@ -1,43 +1,73 @@
 /**
- * DateTime Formatting Library
- * 
- * A robust utility to format dates and times into localized strings using native JS APIs.
- * Supports custom date/time patterns, localized digits (e.g. Khmer), and time-of-day phrases.
- * 
- * @param {string|Date} date - The date to format (e.g. "2026-07-13", or a Date object).
- * @param {string} [format="dd-MM-yyyy hh:mm:ss"] - The format string with tokens.
- * @param {string} [locale="en-US"] - The BCP 47 locale tag (e.g. "en-US", "km-KH", "fr-FR").
- * 
- * @returns {string} - The formatted date string.
- * 
- * @example
- * const dt = new FormatDateTime(new Date(), "DDDD d MMMM, YYYY hh:mm:ss A", "km-KH");
- * console.log(dt.formatDate()); // "ចន្ទ ១៣ កក្កដា, ២០២៦ ០១:៣០:៤៥ ល្ងាច"
- * 
- * Format Tokens:
- * YYYY/yyyy : 4-digit year       MMMM/MMM : Month name/abbr     DDDD/DDD : Day name/abbr
- * YY/yy     : 2-digit year       MM/M     : Month (01-12)       dd/d     : Day of month
- * HH/H      : Hour (0-23)        hh/h     : Hour (1-12)         A/a/aA   : AM/PM (Localized)
- * mm/m      : Minute (0-59)      ss/s     : Second (0-59)       Z/ZZ/z   : Timezone offsets
- * 
- * @author PPhat <hi@pphat.me>
- * @repository https://github.com/pphatdev/format-datetime
- * @website https://pphat.me
- * @copyright 2026 (c)
- * @license MIT
- * @version 0.3.8
+ * Format dates and times into localized strings, with support for the Khmer
+ * lunar calendar.
+ *
+ * Uses native JavaScript `Intl` APIs, so it works in Deno, Node.js, Bun,
+ * browsers and edge runtimes with no dependencies. Supports custom date/time
+ * patterns, localized digits (e.g. Khmer numerals), time-of-day phrases and
+ * Khmer lunar dates.
+ *
+ * Format tokens:
+ *
+ * | Token       | Meaning           | Token       | Meaning            |
+ * | ----------- | ----------------- | ----------- | ------------------ |
+ * | `YYYY/yyyy` | 4-digit year      | `MMMM/MMM`  | Month name / abbr. |
+ * | `YY/yy`     | 2-digit year      | `MM/M`      | Month (01-12)      |
+ * | `DDDD/DDD`  | Day name / abbr.  | `dd/d`      | Day of month       |
+ * | `HH/H`      | Hour (0-23)       | `hh/h`      | Hour (1-12)        |
+ * | `mm/m`      | Minute (0-59)     | `ss/s`      | Second (0-59)      |
+ * | `A/a/aA`    | AM/PM (localized) | `Z/ZZ/z`    | Timezone offset    |
+ *
+ * Text inside square brackets (e.g. `[at]`) is output as-is.
+ *
+ * @example Format a date in Khmer
+ * ```ts
+ * import FormatDateTime from "@pphatdev/format-datetime";
+ *
+ * const dt = new FormatDateTime("2026-07-13 13:30:45", "DDDD d MMMM, YYYY hh:mm:ss A", "km-KH");
+ * dt.formatDate(); // "ចន្ទ ១៣ កក្កដា, ២០២៦ ០១:៣០:៤៥ រសៀល"
+ * ```
+ *
+ * @example Get the Khmer lunar date
+ * ```ts
+ * import FormatDateTime from "@pphatdev/format-datetime";
+ *
+ * new FormatDateTime("2026-07-13").formatLunarDate();
+ * ```
+ *
+ * @module
  */
 import { PATTERNS, generateTokens } from './config/tokens.ts';
 import { KhmerDate } from './lunar/khmer-date.ts';
 
+/**
+ * Formats a date into a localized string using format tokens, and into a Khmer
+ * lunar date.
+ *
+ * Converting an instance to a string (e.g. in a template literal) calls
+ * {@linkcode FormatDateTime.prototype.formatDate}.
+ *
+ * @example
+ * ```ts
+ * import FormatDateTime from "@pphatdev/format-datetime";
+ *
+ * const dt = new FormatDateTime(new Date(), "dd-MM-yyyy hh:mm A", "en-US");
+ * console.log(`${dt}`); // e.g. "13-07-2026 01:30 PM"
+ * ```
+ */
 export class FormatDateTime {
 
+    /** Named format patterns that can be used in place of a format string. */
     static patterns: Record<string, string> = PATTERNS;
 
+    /** Default format patterns. The first one is used when no format is given. */
     static defualtPatterns: string[] = ["dd-MM-yyyy hh:mm:ss",];
 
+    /** The date being formatted. */
     public date: Date;
+    /** The format pattern, made of format tokens and `[escaped text]`. */
     public format: string;
+    /** The BCP 47 locale tag used for names and digits (e.g. `"en-US"`, `"km-KH"`). */
     public locale: string;
 
     /**
